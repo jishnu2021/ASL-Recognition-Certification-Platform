@@ -1,4 +1,5 @@
 import cv2
+import time
 from mediapipe import solutions
 from mediapipe.framework.formats import landmark_pb2
 import numpy as np
@@ -6,16 +7,13 @@ import mediapipe as mp
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 import joblib
-import time
-
 
 # Load the pre-trained Random Forest model
 model_path = 'Random_forest_without_scaling.pkl'
 rf_classifier = joblib.load(model_path)
 
 base_options = python.BaseOptions(model_asset_path='hand_landmarker.task')
-options = vision.HandLandmarkerOptions(base_options=base_options,
-                                       num_hands=1)
+options = vision.HandLandmarkerOptions(base_options=base_options, num_hands=1)
 detector = vision.HandLandmarker.create_from_options(options)
 
 MARGIN = 10  # pixels
@@ -23,14 +21,8 @@ FONT_SIZE = 1
 FONT_THICKNESS = 1
 HANDEDNESS_TEXT_COLOR = (88, 205, 54)  # vibrant green
 PREDICTED_LABEL_COLOR = (0, 0, 255)  # red color for predicted label
-COUNTDOWN_COLOR = (255, 0, 0)  # blue color for countdown
 
-# Initialize variables for holding gesture detection
-last_predicted_label = None
-gesture_start_time = None
-hold_duration = 5  # seconds
-
-def draw_landmarks_on_image(rgb_image, detection_result, predicted_label, countdown_text=None):
+def draw_landmarks_on_image(rgb_image, detection_result, predicted_label, countdown, count, success=False):
     hand_landmarks_list = detection_result.hand_landmarks
     handedness_list = detection_result.handedness
     annotated_image = np.copy(rgb_image)
@@ -68,22 +60,38 @@ def draw_landmarks_on_image(rgb_image, detection_result, predicted_label, countd
         cv2.putText(annotated_image, f"Predicted: {predicted_label}",
                     (text_x, text_y + 30), cv2.FONT_HERSHEY_DUPLEX,
                     FONT_SIZE, PREDICTED_LABEL_COLOR, FONT_THICKNESS, cv2.LINE_AA)
-        
-        # Draw countdown timer if applicable
-        if countdown_text:
-            cv2.putText(annotated_image, countdown_text,
-                        (text_x, text_y + 60), cv2.FONT_HERSHEY_DUPLEX,
-                        FONT_SIZE, COUNTDOWN_COLOR, FONT_THICKNESS, cv2.LINE_AA)
+
+        # Display the countdown
+        cv2.putText(annotated_image, f"Countdown: {int(countdown)}",
+                    (text_x, text_y + 60), cv2.FONT_HERSHEY_DUPLEX,
+                    FONT_SIZE, (255, 255, 255), FONT_THICKNESS, cv2.LINE_AA)
+
+        # Display the count
+        cv2.putText(annotated_image, f"Count: {count}",
+                    (text_x, text_y + 90), cv2.FONT_HERSHEY_DUPLEX,
+                    FONT_SIZE, (0, 255, 255), FONT_THICKNESS, cv2.LINE_AA)
+
+        # Display success message if applicable
+        if success:
+            cv2.putText(annotated_image, "SUCCESSFUL",
+                        (int(width / 2) - 100, int(height / 2)),
+                        cv2.FONT_HERSHEY_DUPLEX, 2, (0, 255, 0), 3, cv2.LINE_AA)
 
     return annotated_image
 
-
 # Open the camera
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 
 if not cap.isOpened():
     print("Error: Could not open camera.")
     exit()
+
+prev_predicted_label = None
+start_time = None
+count = 0
+required_count = 5
+interval_duration = 4  # seconds
+waiting_for_change = False
 
 while True:
     # Capture frame-by-frame
@@ -114,23 +122,28 @@ while True:
         # Predict the label using the loaded Random Forest model
         predicted_label = rf_classifier.predict(data)[0]
 
-        # Initialize or check the gesture hold timer
-        if predicted_label == last_predicted_label:
-            if gesture_start_time is None:
-                gesture_start_time = time.time()
-            elapsed_time = time.time() - gesture_start_time
-            if elapsed_time >= hold_duration:
-                countdown_text = "Hold: Complete"
-            else:
-                remaining_time = hold_duration - elapsed_time
-                countdown_text = f"Hold: {int(remaining_time)}s"
-        else:
-            last_predicted_label = predicted_label
-            gesture_start_time = None
-            countdown_text = None
+        # Handle counting logic
+        if not waiting_for_change and predicted_label == 'A':
+            if predicted_label == prev_predicted_label:
+                if start_time is None:
+                    start_time = time.time()
+                elapsed_time = time.time() - start_time
 
-        # Annotate the image with landmarks, predicted label, and countdown
-        annotated_image = draw_landmarks_on_image(rgb_frame, detection_result, predicted_label, countdown_text)
+                if elapsed_time >= interval_duration:
+                    count += 1
+                    start_time = time.time()  # reset the timer
+                    waiting_for_change = True  # Wait for a different prediction before counting again
+            else:
+                prev_predicted_label = predicted_label
+                start_time = None
+        elif waiting_for_change and predicted_label != 'A':
+            waiting_for_change = False  # Reset when the prediction changes
+
+        success = count >= required_count
+        countdown = interval_duration - elapsed_time if start_time else interval_duration
+
+        # Annotate the image with landmarks and predicted label
+        annotated_image = draw_landmarks_on_image(rgb_frame, detection_result, predicted_label, countdown, count, success)
 
         # Convert the annotated image back to BGR for displaying with OpenCV
         bgr_annotated_image = cv2.cvtColor(annotated_image, cv2.COLOR_RGB2BGR)
