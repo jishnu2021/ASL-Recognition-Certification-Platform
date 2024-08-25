@@ -1,10 +1,11 @@
-const express = require('express')
-const app = express()
-const cors = require('cors')
+const express = require('express');
+const app = express();
+const cors = require('cors');
 const mongoose = require('mongoose');
 require('./database/config');
 const { exec } = require('child_process');
-const Person = require('./database/Person')
+const Person = require('./database/Person');
+const path = require('path');
 
 app.use(express.json());
 app.use(cors());
@@ -18,7 +19,6 @@ app.post('/uregister', async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 });
-
 
 app.post('/userlogin', async (req, res) => {
     try {
@@ -36,22 +36,20 @@ app.post('/userlogin', async (req, res) => {
     }
 });
 
-
 app.get('/run-script', (req, res) => {
-    // Execute the Python script with proper path handling
-    exec('python "C:/Users/jishn/Desktop/StatusCode1/Backend/recog.py"', (error, stdout, stderr) => {
+    exec('python "C:/Users/jishn/Desktop/ASL-Recognition-Certification-Platform/Backend/countdown.py"', (error, stdout, stderr) => {
         if (error) {
-            console.error(`Error executing script: ${error}`);
-            return res.status(500).send('Error executing script');
+            console.error(`Error executing script: ${error.message}`);
+            console.error(`stderr: ${stderr}`);
+            return res.status(500).send(`Error executing script: ${stderr}`);
         }
         console.log(`Script output: ${stdout}`);
-        res.send('Python script executed successfully');
+        res.send(stdout);  // Send the script output back to the client
     });
 });
 
 
-
 const PORT = 5000;
-app.listen(PORT,()=>{
-    console.log(`Server is running on ${PORT}`)
-})
+app.listen(PORT, () => {
+    console.log(`Server is running on ${PORT}`);
+});

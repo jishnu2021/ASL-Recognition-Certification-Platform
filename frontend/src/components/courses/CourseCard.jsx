@@ -9,7 +9,7 @@ const CourseCard = ({ course }) => {
   const GotoContent = async () => {
     try {
       // Trigger the Python script by sending a GET request to the backend
-      await axios.get('http://localhost:5000/run-script');
+      // await axios.get('http://localhost:5000/run-script');
       navigate('/content');
     } catch (error) {
       console.error('Error running script:', error);
