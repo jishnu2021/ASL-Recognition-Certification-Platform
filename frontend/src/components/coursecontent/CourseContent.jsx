@@ -3,7 +3,7 @@ import Sidebar from './Sidebar';
 import VideoPlayer from './VideoPlayer';
 
 const CourseContent = () => {
-  const [selectedVideo, setSelectedVideo] = useState('');
+  const [selectedVideo, setSelectedVideo] = useState('https://youtu.be/KRc9r8cqj-8');
 
   const handleVideoSelect = (videoUrl) => {
     setSelectedVideo(videoUrl);

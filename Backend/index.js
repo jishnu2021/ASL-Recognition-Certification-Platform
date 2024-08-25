@@ -36,6 +36,18 @@ app.post('/userlogin', async (req, res) => {
     }
 });
 
+app.get('/test-script', (req, res) => {
+    exec('python "C:/Users/jishn/Desktop/ASL-Recognition-Certification-Platform/Backend/test.py"', (error, stdout, stderr) => {
+        if (error) {
+            console.error(`Error executing script: ${error.message}`);
+            console.error(`stderr: ${stderr}`);
+            return res.status(500).send(`Error executing script: ${stderr}`);
+        }
+        console.log(`Script output: ${stdout}`);
+        res.send(stdout);  // Send the script output back to the client
+    });
+});
+
 app.get('/run-script', (req, res) => {
     exec('python "C:/Users/jishn/Desktop/ASL-Recognition-Certification-Platform/Backend/countdown.py"', (error, stdout, stderr) => {
         if (error) {

@@ -1,12 +1,12 @@
 import React from 'react';
-
+import certificate from '../img/certificate.jpeg'
 function Earning() {
   // Simulate fetching the NFTs from a data source like localStorage or an API
   const earnedNfts = [
     {
       id: 1,
       title: 'Course Completion NFT',
-      imageUrl: 'https://ipfs.filebase.io/ipfs/Qmcido7iNBGL1snHKfHTu511PSDHArNdJne2N4n3xGiR4k', // Replace with actual NFT image URL
+      imageUrl: certificate, // Replace with actual NFT image URL
       description: 'This NFT was awarded for completing the course.',
     },
     // Add more NFTs as needed

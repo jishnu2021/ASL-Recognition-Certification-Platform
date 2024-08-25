@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const CourseCard = ({ course }) => {
   const [showPopup, setShowPopup] = useState(false);
+  const [isComplete, setIsComplete] = useState(false); // State to track if the test is complete
+  const [buttonColor, setButtonColor] = useState('bg-blue-500'); // State to track button color
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setButtonColor('bg-green-500'); // Change button color to green after 1 minute
+    }, 5000); // 1 minute in milliseconds
+
+    return () => clearTimeout(timer); // Cleanup timer on component unmount
+  }, []);
 
   const GotoContent = async () => {
     try {
@@ -17,6 +27,7 @@ const CourseCard = ({ course }) => {
   };
 
   const Complete = () => {
+    setIsComplete(true); // Set the state to complete
     setShowPopup(true);
     setTimeout(() => {
       navigate('/earning');
@@ -34,10 +45,16 @@ const CourseCard = ({ course }) => {
         <h3 className="text-lg font-semibold">{course.title}</h3>
         <p className="text-gray-600 mt-2">{course.description}</p>
         <div style={{ display: 'flex', columnGap: '1rem', justifyContent: 'space-evenly' }}>
-          <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" onClick={GotoContent}>
+          <button 
+            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" 
+            onClick={GotoContent}
+          >
             Start
           </button>
-          <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" onClick={Complete}>
+          <button 
+            className={`mt-4 px-4 py-2 text-white rounded ${buttonColor} ${isComplete ? 'bg-green-500' : ''} hover:bg-green-600`}
+            onClick={Complete}
+          >
             Complete
           </button>
         </div>

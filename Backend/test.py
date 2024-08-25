@@ -22,7 +22,7 @@ FONT_THICKNESS = 1
 HANDEDNESS_TEXT_COLOR = (88, 205, 54)  # vibrant green
 PREDICTED_LABEL_COLOR = (0, 0, 255)  # red color for predicted label
 
-target_word = "APPLE"
+target_word = "ADJW"
 current_letter_index = 0
 
 def draw_landmarks_on_image(rgb_image, detection_result, predicted_label, countdown, count, success=False):
