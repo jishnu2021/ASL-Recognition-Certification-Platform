@@ -3,6 +3,7 @@ const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose');
 require('./database/config');
+const { exec } = require('child_process');
 const Person = require('./database/Person')
 
 app.use(express.json());
@@ -35,6 +36,18 @@ app.post('/userlogin', async (req, res) => {
     }
 });
 
+
+app.get('/run-script', (req, res) => {
+    // Execute the Python script with proper path handling
+    exec('python "C:/Users/jishn/Desktop/StatusCode1/Backend/recog.py"', (error, stdout, stderr) => {
+        if (error) {
+            console.error(`Error executing script: ${error}`);
+            return res.status(500).send('Error executing script');
+        }
+        console.log(`Script output: ${stdout}`);
+        res.send('Python script executed successfully');
+    });
+});
 
 
 

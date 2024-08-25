@@ -9,6 +9,7 @@ import CourseCard from './components/courses/CourseCard'
 import CourseContent from './components/coursecontent/CourseContent'
 import Register from './components/register/Register'
 import Login from './components/register/Login'
+import Earning from './components/earning/Earning'
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
     <Route path='content' element={<CourseContent/>}/>
     <Route path='register' element={<Register/>}/>
     <Route path='login' element={<Login/>}/>
+    <Route path='earning' element={<Earning/>}/>
     </Routes>
     </BrowserRouter>
       

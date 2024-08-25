@@ -1,5 +1,5 @@
 import React from "react";
-
+import about from '../img/about.jpeg'
 const About = () => {
     return (
         <div style={{justifyContent:'center',alignContent:'center',alignItems:'center',marginLeft:'10%'}}>
@@ -11,9 +11,9 @@ const About = () => {
             </div>
 
             <div className="lg:mt-14 sm:mt-10 mt-12">
-                <img className="lg:block hidden w-full" src="https://i.ibb.co/GvwJnvn/Group-736.png" alt="Group of people Chilling" />
-                <img className="lg:hidden sm:block hidden w-full" src="https://i.ibb.co/5sZTmHq/Rectangle-116.png" alt="Group of people Chilling" />
-                <img className="sm:hidden block w-full" src="https://i.ibb.co/zSxXJGQ/Rectangle-122.png" alt="Group of people Chilling" />
+                <img className="lg:block hidden w-full" src={about} alt="Group of people Chilling" />
+                <img className="lg:hidden sm:block hidden w-full" src="" alt="Group of people Chilling" />
+                <img className="sm:hidden block w-full" src="" alt="Group of people Chilling" />
             </div>
 
             <div className="lg:mt-16 sm:mt-12 mt-16 flex lg:flex-row justify-between flex-col lg:gap-8 gap-12" style={{marginTop:'5rem'}}>
