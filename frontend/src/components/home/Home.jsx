@@ -9,11 +9,10 @@ function Home() {
           <div className="lg:col-span-7 lg:pr-8" style={{marginTop:'4rem'}}>
             <div className="place-self-center lg:mt-10">
               <h1 className="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">
-                Payments tool for software companies
+                Learn , Certify , and Master ASL Online
               </h1>
               <p className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
-                From checkout to global sales tax compliance, companies around the world
-                use Flowbite to simplify their payment stack.
+              Master American Sign Language through interactive lessons, real-time practice, and earn recognized certifications to showcase your communication proficiency.
               </p>
               <a
                 href="#"

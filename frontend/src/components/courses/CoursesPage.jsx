@@ -4,12 +4,8 @@ import CourseCard from './CourseCard';
 import home from '../img/home.png'
 
 const courses = [
-  { id: 1, title: 'Course 1', description: 'Description for course 1', image: home },
-  { id: 2, title: 'Course 2', description: 'Description for course 2', image: home },
-  { id: 2, title: 'Course 2', description: 'Description for course 2', image: home },
-  { id: 2, title: 'Course 2', description: 'Description for course 2', image: home },
-  { id: 2, title: 'Course 2', description: 'Description for course 2', image: home },
-  { id: 2, title: 'Course 2', description: 'Description for course 2', image: home},
+  { id: 1, title: 'Asl SignLanguage', description: 'Description for course 1', image: home },
+
   
   // Add 8 more course objects here
 ];
