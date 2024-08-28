@@ -55,8 +55,8 @@ Check out our demo video to see the project in action:
 This project wouldn't have been possible without the incredible contributions from our team:
 
 - **Jishnu Ghosh** - Full Stack Development
-- **Debdutta** - Design
-- **Moumita** - Frontend Development
+- **Debdutta Roy Chowdhury** - Design
+- **Moumita Saha** - Frontend Development
 - **Souvik Ghosh** - Backend Assistance
 
 
