@@ -1,4 +1,4 @@
-# Sign Language Certification with NFTs
+# ASL-Recognition-Certification-Platform
 
 Welcome to the **Sign Language Certification with NFTs** project! This repository contains the codebase for a fully automated course designed to teach sign language, culminating in a certification issued as an NFT. This project was developed as part of the **Status Code 1** initiative.
 
