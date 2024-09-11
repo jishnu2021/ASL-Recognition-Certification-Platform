@@ -106,4 +106,4 @@ We welcome contributions to this project. Please fork the repository, create a n
 This project is licensed under the MIT License. See the LICENSE file for details.
 
 ### Contact
-If you have any questions or feedback, feel free to reach out to us at mochoye.official@gmail.com
+If you have any questions or feedback, feel free to reach out to us at mochoye.official@gmail.com , jishnughosh2023@gmail.com 
